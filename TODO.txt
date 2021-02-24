@@ -1,0 +1,41 @@
+TO DO:
+- big file size check
+- folder select -> subfolders checkbox
+https://stackoverflow.com/questions/12332451/list-all-files-and-directories-in-a-directory-subdirectories/12332495
+
+- folder / files mode
+- about menu (jobb felső sarok i gomb inkább, settings fogaskerék mellett)
+- formatting változik-e? / change to a specific formatting / get first file's encoding....
+https://stackoverflow.com/questions/3825390/effective-way-to-find-any-files-encoding
+
+-show selected files???? / listában -> settigns
+
+- beállítások -> user settings mentéssel / default visszaállítás
+- update funkció, ha frissíteni kell
+- ha hiba miatt megakad, akkor törölje a merge filet??? -> settings
+
+- root directory (settings, default... -> ha hibás a deafuld, legyen pl. sime c:\, de default beállításakor is ellenőrizze)
+- lehetőség korábbi beginning/end of text cseréjére, hogy utolsó beállítást mentse / több szöveget is mentsen pl. 10 mintát
+- usercontrol használata (gui változásra)
+- close all files after use (output as well) == fájlok elengedése merge után!!!
+- skip to big files -> checkbox
+- mergelt valamelyik file nyitva van mergeléskor?? vagy output file?
+- üzenet: 100/100 files in 2 folders have been processed
+- kiválasztott folder element change?
+- fájlok milyen sorrendben kerüljenek feldolgozásra?
+- korábbi kiválasztott folderek/fájlok felülíráa új kiválasztáskor
+- kiválasztott folderek őj ablakban jobban látszódjanak, ne csak pár sor
+- merga alatt a gomb színeződjön át!
+- modern gui
+- default target folder -> settings
+- https://pages.github.com/ site create!
+- output file selector -> alapértelmezetten mi jelenjen meg  =név, kiterjesztések)
+- alapért kiterjesztés a többi fájlból pl. 1-t megnézi ha ass -> ass, ha srt -> srt ???
+- check for emty input file/folder
+
+CODING:
+- better folder/file selector
+	like: https://www.nuget.org/packages/BetterFolderBrowser/1.2.0
+
+
+DONE:
