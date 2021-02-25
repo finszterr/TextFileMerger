@@ -94,5 +94,41 @@ namespace TextFileMerger.Properties {
                 this["clearSelectedFolderListBeforeNextSelect"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool removeSelectedFoldersAfterProcessing {
+            get {
+                return ((bool)(this["removeSelectedFoldersAfterProcessing"]));
+            }
+            set {
+                this["removeSelectedFoldersAfterProcessing"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string defaultOutputFolder {
+            get {
+                return ((string)(this["defaultOutputFolder"]));
+            }
+            set {
+                this["defaultOutputFolder"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool isDefaultOutputFolderCustom {
+            get {
+                return ((bool)(this["isDefaultOutputFolderCustom"]));
+            }
+            set {
+                this["isDefaultOutputFolderCustom"] = value;
+            }
+        }
     }
 }

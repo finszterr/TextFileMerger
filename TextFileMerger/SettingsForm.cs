@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -15,10 +16,15 @@ namespace TextFileMerger
 {
     public partial class SettingsForm : Form
     {
+        //Init combobox
+        string[] outputs = { "Same as the firstly added folder", "Custom ..." };
         public SettingsForm()
         {
             InitializeComponent();
-            if(Settings.Default.uniqueFolder)
+            defaultOutputFolderComboBox.Items.Add(outputs[0]);
+            defaultOutputFolderComboBox.Items.Add(outputs[1]);
+
+            if (Settings.Default.uniqueFolder)
                 uniqueCheckCheckBox.CheckState = CheckState.Checked;
             if (Settings.Default.deleteUnsuccessfulMerged)
                 deleteUnsuccessfulMergedCheckBox.CheckState = CheckState.Checked;
@@ -28,6 +34,20 @@ namespace TextFileMerger
 
             if (Settings.Default.clearSelectedFolderListBeforeNextSelect)
                 clearSelectedFoldersListCheckBox.CheckState = CheckState.Checked;
+
+            if (Settings.Default.removeSelectedFoldersAfterProcessing)
+                removeSelectedFoldersAfterProcessingCheckBox.CheckState = CheckState.Checked;
+
+            if (Settings.Default.isDefaultOutputFolderCustom)
+            {
+                defaultOutputFolderComboBox.Text = outputs[1];
+                defaultOutputFolderTextBox.Visible = true;
+            }
+            else
+            {
+                defaultOutputFolderComboBox.Text = outputs[0];
+                defaultOutputFolderTextBox.Visible = false;
+            }
         }
 
         private void saveSettingsButton_Click(object sender, EventArgs e)
@@ -97,6 +117,9 @@ namespace TextFileMerger
                 defaultOutputNameTextBox.Text = Settings.Default.defaultOutputName;
 
             Settings.Default["clearSelectedFolderListBeforeNextSelect"] = clearSelectedFoldersListCheckBox.Checked;
+            Settings.Default["removeSelectedFoldersAfterProcessing"] = removeSelectedFoldersAfterProcessingCheckBox.Checked;
+
+            Settings.Default["isDefaultOutputFolderCustom"] = defaultOutputFolderComboBox.Text == outputs[1];
             // you can force a save with
             Settings.Default.Save();
         }
@@ -108,8 +131,22 @@ namespace TextFileMerger
             if(rootDirectoryTextBox.Text != Settings.Default.rootDirectory) return false;
             if(defaultOutputNameTextBox.Text != Settings.Default.defaultOutputName) return false;
             if(clearSelectedFoldersListCheckBox.Checked != Settings.Default.clearSelectedFolderListBeforeNextSelect) return false;
+            if (removeSelectedFoldersAfterProcessingCheckBox.Checked != Settings.Default.removeSelectedFoldersAfterProcessing)
+                return false;
+            if (Settings.Default.isDefaultOutputFolderCustom && defaultOutputFolderComboBox.Text != outputs[1])
+                return false;
+            if (!Settings.Default.isDefaultOutputFolderCustom && defaultOutputFolderComboBox.Text == outputs[1])
+                return false;
 
             return true;
+        }
+
+        private void defaultOutputFolderComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(defaultOutputFolderComboBox.Text == outputs[1])
+                defaultOutputFolderTextBox.Visible = true;
+            if (defaultOutputFolderComboBox.Text == outputs[0])
+                defaultOutputFolderTextBox.Visible = false;
         }
     }
 }

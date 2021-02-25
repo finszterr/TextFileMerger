@@ -46,7 +46,9 @@ namespace TextFileMerger
 
                 foreach (string folder in betterFolderBrowser.SelectedFolders)
                 {
-                    if (uniqueFolder && (Array.IndexOf(selectedFolders, folder) > -1)) continue;
+                    //Prevent error if selectedFolders in empty
+                    if ((selectedFolders != null) && uniqueFolder
+                        && (Array.IndexOf(selectedFolders, folder) > -1)) continue;
                     selectedFoldersList.Add(folder);
                 }
 
@@ -193,6 +195,13 @@ namespace TextFileMerger
             }
             //Close after every folder and every files are proceessed
             sw.Close();
+
+            //Clear selected folders if needed
+            if(Settings.Default.removeSelectedFoldersAfterProcessing)
+            {
+                selectedFolders = new string[0];
+                listBox1.Items.Clear();
+            }
 
             SuccessForm successForm = new SuccessForm();
             //Creating target folder link

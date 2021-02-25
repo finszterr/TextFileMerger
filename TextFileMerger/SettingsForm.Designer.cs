@@ -38,6 +38,11 @@
             this.defaultOutputNameLabel = new System.Windows.Forms.Label();
             this.defaultOutputNameTextBox = new System.Windows.Forms.TextBox();
             this.clearSelectedFoldersListCheckBox = new System.Windows.Forms.CheckBox();
+            this.removeSelectedFoldersAfterProcessingCheckBox = new System.Windows.Forms.CheckBox();
+            this.defaultOutputFolderLabel = new System.Windows.Forms.Label();
+            this.defaultOutputFolderComboBox = new System.Windows.Forms.ComboBox();
+            this.defaultOutputFolderTextBox = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // uniqueCheckCheckBox
@@ -53,7 +58,7 @@
             // 
             // saveSettingsButton
             // 
-            this.saveSettingsButton.Location = new System.Drawing.Point(336, 399);
+            this.saveSettingsButton.Location = new System.Drawing.Point(392, 484);
             this.saveSettingsButton.Name = "saveSettingsButton";
             this.saveSettingsButton.Size = new System.Drawing.Size(105, 39);
             this.saveSettingsButton.TabIndex = 2;
@@ -139,11 +144,64 @@
             this.clearSelectedFoldersListCheckBox.Text = "Clear selected folders list before next select";
             this.clearSelectedFoldersListCheckBox.UseVisualStyleBackColor = true;
             // 
+            // removeSelectedFoldersAfterProcessingCheckBox
+            // 
+            this.removeSelectedFoldersAfterProcessingCheckBox.AutoSize = true;
+            this.removeSelectedFoldersAfterProcessingCheckBox.Location = new System.Drawing.Point(58, 205);
+            this.removeSelectedFoldersAfterProcessingCheckBox.Name = "removeSelectedFoldersAfterProcessingCheckBox";
+            this.removeSelectedFoldersAfterProcessingCheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.removeSelectedFoldersAfterProcessingCheckBox.Size = new System.Drawing.Size(364, 21);
+            this.removeSelectedFoldersAfterProcessingCheckBox.TabIndex = 19;
+            this.removeSelectedFoldersAfterProcessingCheckBox.Text = "Clear selected folders list after successful processing";
+            this.removeSelectedFoldersAfterProcessingCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // defaultOutputFolderLabel
+            // 
+            this.defaultOutputFolderLabel.AutoSize = true;
+            this.defaultOutputFolderLabel.Location = new System.Drawing.Point(55, 383);
+            this.defaultOutputFolderLabel.Name = "defaultOutputFolderLabel";
+            this.defaultOutputFolderLabel.Size = new System.Drawing.Size(137, 17);
+            this.defaultOutputFolderLabel.TabIndex = 20;
+            this.defaultOutputFolderLabel.Text = "Default output folder";
+            // 
+            // defaultOutputFolderComboBox
+            // 
+            this.defaultOutputFolderComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.defaultOutputFolderComboBox.FormattingEnabled = true;
+            this.defaultOutputFolderComboBox.Location = new System.Drawing.Point(221, 383);
+            this.defaultOutputFolderComboBox.Name = "defaultOutputFolderComboBox";
+            this.defaultOutputFolderComboBox.Size = new System.Drawing.Size(245, 24);
+            this.defaultOutputFolderComboBox.TabIndex = 21;
+            this.defaultOutputFolderComboBox.SelectedIndexChanged += new System.EventHandler(this.defaultOutputFolderComboBox_SelectedIndexChanged);
+            // 
+            // defaultOutputFolderTextBox
+            // 
+            this.defaultOutputFolderTextBox.Location = new System.Drawing.Point(495, 383);
+            this.defaultOutputFolderTextBox.Name = "defaultOutputFolderTextBox";
+            this.defaultOutputFolderTextBox.Size = new System.Drawing.Size(352, 22);
+            this.defaultOutputFolderTextBox.TabIndex = 22;
+            // 
+            // button1
+            // 
+            this.button1.Font = new System.Drawing.Font("Segoe UI", 13.8F);
+            this.button1.Location = new System.Drawing.Point(850, 383);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(47, 37);
+            this.button1.TabIndex = 23;
+            this.button1.Text = "...";
+            this.button1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(909, 450);
+            this.ClientSize = new System.Drawing.Size(909, 547);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.defaultOutputFolderTextBox);
+            this.Controls.Add(this.defaultOutputFolderComboBox);
+            this.Controls.Add(this.defaultOutputFolderLabel);
+            this.Controls.Add(this.removeSelectedFoldersAfterProcessingCheckBox);
             this.Controls.Add(this.clearSelectedFoldersListCheckBox);
             this.Controls.Add(this.defaultOutputNameTextBox);
             this.Controls.Add(this.defaultOutputNameLabel);
@@ -174,5 +232,10 @@
         private System.Windows.Forms.Label defaultOutputNameLabel;
         private System.Windows.Forms.TextBox defaultOutputNameTextBox;
         private System.Windows.Forms.CheckBox clearSelectedFoldersListCheckBox;
+        private System.Windows.Forms.CheckBox removeSelectedFoldersAfterProcessingCheckBox;
+        private System.Windows.Forms.Label defaultOutputFolderLabel;
+        private System.Windows.Forms.ComboBox defaultOutputFolderComboBox;
+        private System.Windows.Forms.TextBox defaultOutputFolderTextBox;
+        private System.Windows.Forms.Button button1;
     }
 }
