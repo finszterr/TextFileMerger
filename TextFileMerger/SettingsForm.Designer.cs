@@ -42,7 +42,9 @@
             this.defaultOutputFolderLabel = new System.Windows.Forms.Label();
             this.defaultOutputFolderComboBox = new System.Windows.Forms.ComboBox();
             this.defaultOutputFolderTextBox = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.defaultOutputFolderButton = new System.Windows.Forms.Button();
+            this.defaultOutputExtensionLabel = new System.Windows.Forms.Label();
+            this.defaultOutputExtensionWaterMarkTextBox = new TextFileMerger.WaterMarkTextBox();
             this.SuspendLayout();
             // 
             // uniqueCheckCheckBox
@@ -122,15 +124,15 @@
             this.defaultOutputNameLabel.AutoSize = true;
             this.defaultOutputNameLabel.Location = new System.Drawing.Point(55, 344);
             this.defaultOutputNameLabel.Name = "defaultOutputNameLabel";
-            this.defaultOutputNameLabel.Size = new System.Drawing.Size(238, 17);
+            this.defaultOutputNameLabel.Size = new System.Drawing.Size(258, 17);
             this.defaultOutputNameLabel.TabIndex = 16;
-            this.defaultOutputNameLabel.Text = "Default output name (with extension)";
+            this.defaultOutputNameLabel.Text = "Default output name (without extension)";
             // 
             // defaultOutputNameTextBox
             // 
-            this.defaultOutputNameTextBox.Location = new System.Drawing.Point(309, 341);
+            this.defaultOutputNameTextBox.Location = new System.Drawing.Point(337, 341);
             this.defaultOutputNameTextBox.Name = "defaultOutputNameTextBox";
-            this.defaultOutputNameTextBox.Size = new System.Drawing.Size(300, 22);
+            this.defaultOutputNameTextBox.Size = new System.Drawing.Size(486, 22);
             this.defaultOutputNameTextBox.TabIndex = 17;
             // 
             // clearSelectedFoldersListCheckBox
@@ -158,7 +160,7 @@
             // defaultOutputFolderLabel
             // 
             this.defaultOutputFolderLabel.AutoSize = true;
-            this.defaultOutputFolderLabel.Location = new System.Drawing.Point(55, 383);
+            this.defaultOutputFolderLabel.Location = new System.Drawing.Point(55, 414);
             this.defaultOutputFolderLabel.Name = "defaultOutputFolderLabel";
             this.defaultOutputFolderLabel.Size = new System.Drawing.Size(137, 17);
             this.defaultOutputFolderLabel.TabIndex = 20;
@@ -168,7 +170,7 @@
             // 
             this.defaultOutputFolderComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.defaultOutputFolderComboBox.FormattingEnabled = true;
-            this.defaultOutputFolderComboBox.Location = new System.Drawing.Point(221, 383);
+            this.defaultOutputFolderComboBox.Location = new System.Drawing.Point(221, 414);
             this.defaultOutputFolderComboBox.Name = "defaultOutputFolderComboBox";
             this.defaultOutputFolderComboBox.Size = new System.Drawing.Size(245, 24);
             this.defaultOutputFolderComboBox.TabIndex = 21;
@@ -176,28 +178,49 @@
             // 
             // defaultOutputFolderTextBox
             // 
-            this.defaultOutputFolderTextBox.Location = new System.Drawing.Point(495, 383);
+            this.defaultOutputFolderTextBox.Location = new System.Drawing.Point(495, 414);
             this.defaultOutputFolderTextBox.Name = "defaultOutputFolderTextBox";
             this.defaultOutputFolderTextBox.Size = new System.Drawing.Size(352, 22);
             this.defaultOutputFolderTextBox.TabIndex = 22;
             // 
-            // button1
+            // defaultOutputFolderButton
             // 
-            this.button1.Font = new System.Drawing.Font("Segoe UI", 13.8F);
-            this.button1.Location = new System.Drawing.Point(850, 383);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(47, 37);
-            this.button1.TabIndex = 23;
-            this.button1.Text = "...";
-            this.button1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.button1.UseVisualStyleBackColor = true;
+            this.defaultOutputFolderButton.Font = new System.Drawing.Font("Segoe UI", 13.8F);
+            this.defaultOutputFolderButton.Location = new System.Drawing.Point(850, 414);
+            this.defaultOutputFolderButton.Name = "defaultOutputFolderButton";
+            this.defaultOutputFolderButton.Size = new System.Drawing.Size(47, 37);
+            this.defaultOutputFolderButton.TabIndex = 23;
+            this.defaultOutputFolderButton.Text = "...";
+            this.defaultOutputFolderButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.defaultOutputFolderButton.UseVisualStyleBackColor = true;
+            // 
+            // defaultOutputExtensionLabel
+            // 
+            this.defaultOutputExtensionLabel.AutoSize = true;
+            this.defaultOutputExtensionLabel.Location = new System.Drawing.Point(55, 372);
+            this.defaultOutputExtensionLabel.Name = "defaultOutputExtensionLabel";
+            this.defaultOutputExtensionLabel.Size = new System.Drawing.Size(445, 17);
+            this.defaultOutputExtensionLabel.TabIndex = 24;
+            this.defaultOutputExtensionLabel.Text = "Output file\'s extension (if empty then first file\'s extension will be used!)";
+            // 
+            // defaultOutputExtensionWaterMarkTextBox
+            // 
+            this.defaultOutputExtensionWaterMarkTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
+            this.defaultOutputExtensionWaterMarkTextBox.Location = new System.Drawing.Point(506, 367);
+            this.defaultOutputExtensionWaterMarkTextBox.Name = "defaultOutputExtensionWaterMarkTextBox";
+            this.defaultOutputExtensionWaterMarkTextBox.Size = new System.Drawing.Size(317, 22);
+            this.defaultOutputExtensionWaterMarkTextBox.TabIndex = 26;
+            this.defaultOutputExtensionWaterMarkTextBox.WaterMarkColor = System.Drawing.Color.Gray;
+            this.defaultOutputExtensionWaterMarkTextBox.WaterMarkText = "E.g. if you want txt files then type: txt (no \".\" needed)";
             // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(909, 547);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.defaultOutputExtensionWaterMarkTextBox);
+            this.Controls.Add(this.defaultOutputExtensionLabel);
+            this.Controls.Add(this.defaultOutputFolderButton);
             this.Controls.Add(this.defaultOutputFolderTextBox);
             this.Controls.Add(this.defaultOutputFolderComboBox);
             this.Controls.Add(this.defaultOutputFolderLabel);
@@ -236,6 +259,8 @@
         private System.Windows.Forms.Label defaultOutputFolderLabel;
         private System.Windows.Forms.ComboBox defaultOutputFolderComboBox;
         private System.Windows.Forms.TextBox defaultOutputFolderTextBox;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button defaultOutputFolderButton;
+        private System.Windows.Forms.Label defaultOutputExtensionLabel;
+        private WaterMarkTextBox defaultOutputExtensionWaterMarkTextBox;
     }
 }

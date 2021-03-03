@@ -130,5 +130,17 @@ namespace TextFileMerger.Properties {
                 this["isDefaultOutputFolderCustom"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string defaultOutputExtension {
+            get {
+                return ((string)(this["defaultOutputExtension"]));
+            }
+            set {
+                this["defaultOutputExtension"] = value;
+            }
+        }
     }
 }

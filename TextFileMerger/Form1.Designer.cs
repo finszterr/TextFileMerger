@@ -134,6 +134,9 @@
             this.outputFileLabel.TabIndex = 7;
             this.outputFileLabel.Text = "Output file:";
             // 
+            // saveFileDialog
+            // 
+            // 
             // betweenLabel
             // 
             this.betweenLabel.AutoSize = true;

@@ -66,10 +66,33 @@ namespace TextFileMerger
                     }
                 }
                 //Add new folders to the already added's list
-                selectedFolders = selectedFolders.Concat(selectedFoldersList.ToArray()).ToArray();
-                // If you've disabled multi-selection, use 'SelectedFolder'.
-                // string selectedFolder = betterFolderBrowser1.SelectedFolder;
-                outputFileTextBox.Text = selectedFolders[0] + "\\" + Settings.Default.defaultOutputName;
+                if(selectedFolders != null)
+                {
+                    selectedFolders = selectedFolders.Concat(selectedFoldersList.ToArray()).ToArray();
+                } else
+                {
+                    selectedFolders = selectedFoldersList.ToArray();
+                }
+                
+                // If custom default output folder is set and is also valid then use that
+                if(Settings.Default.isDefaultOutputFolderCustom
+                    && Directory.Exists(Settings.Default.defaultOutputFolder))
+                {
+                    outputFileTextBox.Text = Settings.Default.defaultOutputFolder + "\\" + Settings.Default.defaultOutputName;
+                } else
+                {
+                    //Or just use the first folder's path
+                    outputFileTextBox.Text = selectedFolders[0] + "\\" + Settings.Default.defaultOutputName;
+                }
+                //Extension setting
+                var firstFile = getFirstFile();
+                if(Settings.Default.defaultOutputExtension == "" && firstFile != "")
+                {
+                    outputFileTextBox.Text += Path.GetExtension(firstFile);
+                } else
+                {
+                    outputFileTextBox.Text += "." + Settings.Default.defaultOutputExtension;
+                }
             }
         }
 
@@ -134,7 +157,10 @@ namespace TextFileMerger
                 }
 
                 //Last file in the last folder
-                var lastFile = Directory.EnumerateFiles(folder).Last();
+                //Handle error if there isn't any file
+                var lastFile = "";
+                if (Directory.GetFiles(folder).Length > 0)
+                    lastFile = Directory.EnumerateFiles(folder).Last();
                 foreach (var file in Directory.EnumerateFiles(folder))
                 {
                     if (file.ToString() == merged.Name) continue;
@@ -384,5 +410,17 @@ namespace TextFileMerger
             SettingsForm settingsForm = new SettingsForm();
             settingsForm.Show();
         }
+
+        string getFirstFile()
+        {
+            //Loop in the first folder
+            foreach (string file in Directory.EnumerateFiles(selectedFolders.First()))
+            {
+                return file;
+            }
+
+            return "";
+        }
+
     }
 }

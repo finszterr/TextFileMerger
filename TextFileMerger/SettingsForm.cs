@@ -42,12 +42,20 @@ namespace TextFileMerger
             {
                 defaultOutputFolderComboBox.Text = outputs[1];
                 defaultOutputFolderTextBox.Visible = true;
+                defaultOutputFolderButton.Visible = true;
             }
             else
             {
                 defaultOutputFolderComboBox.Text = outputs[0];
                 defaultOutputFolderTextBox.Visible = false;
+                defaultOutputFolderButton.Visible = false;
             }
+
+            if (Settings.Default.defaultOutputFolder != "")
+                defaultOutputFolderTextBox.Text = Settings.Default.defaultOutputFolder;
+
+            if (Settings.Default.defaultOutputExtension != "")
+                defaultOutputExtensionWaterMarkTextBox.Text = Settings.Default.defaultOutputExtension;
         }
 
         private void saveSettingsButton_Click(object sender, EventArgs e)
@@ -120,6 +128,28 @@ namespace TextFileMerger
             Settings.Default["removeSelectedFoldersAfterProcessing"] = removeSelectedFoldersAfterProcessingCheckBox.Checked;
 
             Settings.Default["isDefaultOutputFolderCustom"] = defaultOutputFolderComboBox.Text == outputs[1];
+
+            if (Directory.Exists(defaultOutputFolderTextBox.Text))
+            {
+                Settings.Default["defaultOutputFolder"] = defaultOutputFolderTextBox.Text;
+            } 
+            else
+            {
+                //Not custom - allow not valid dirs as well like empty
+                if(defaultOutputFolderComboBox.Text == outputs[1])
+                {
+                    if (MessageBox.Show(
+                       "The default output folder you set is not valid!" + Environment.NewLine + "Restore the previous value?",
+                       "Invalid output folder",
+                       MessageBoxButtons.YesNo,
+                       MessageBoxIcon.Error,
+                       MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                        defaultOutputFolderTextBox.Text = Settings.Default.defaultOutputFolder;
+                } 
+            }
+
+            Settings.Default["defaultOutputExtension"] = defaultOutputExtensionWaterMarkTextBox.Text;
+
             // you can force a save with
             Settings.Default.Save();
         }
@@ -137,16 +167,25 @@ namespace TextFileMerger
                 return false;
             if (!Settings.Default.isDefaultOutputFolderCustom && defaultOutputFolderComboBox.Text == outputs[1])
                 return false;
+            if (defaultOutputFolderTextBox.Text != Settings.Default.defaultOutputFolder) return false;
+            if (defaultOutputExtensionWaterMarkTextBox.Text != Settings.Default.defaultOutputExtension) return false;
 
             return true;
         }
 
         private void defaultOutputFolderComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(defaultOutputFolderComboBox.Text == outputs[1])
+            if (defaultOutputFolderComboBox.Text == outputs[1])
+            {
                 defaultOutputFolderTextBox.Visible = true;
+                defaultOutputFolderButton.Visible = true;
+            }
             if (defaultOutputFolderComboBox.Text == outputs[0])
+            {
                 defaultOutputFolderTextBox.Visible = false;
+                defaultOutputFolderButton.Visible = false;
+            }
         }
+
     }
 }
