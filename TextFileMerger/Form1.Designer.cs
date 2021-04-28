@@ -49,7 +49,7 @@
             this.betterFolderBrowser1 = new WK.Libraries.BetterFolderBrowserNS.BetterFolderBrowser(this.components);
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.button4 = new System.Windows.Forms.Button();
+            this.clearAllSelectedFoldersButton = new System.Windows.Forms.Button();
             this.deleteSelectedFolderButton = new System.Windows.Forms.Button();
             this.includeFilesInSubfoldersCheckBox = new System.Windows.Forms.CheckBox();
             this.skipBigFilesCheckBox = new System.Windows.Forms.CheckBox();
@@ -57,6 +57,10 @@
             this.skipBigFilesTextBox = new System.Windows.Forms.TextBox();
             this.UoMLabel = new System.Windows.Forms.Label();
             this.settingsButton = new System.Windows.Forms.Button();
+            this.textAfterNoNewLineCheckBox = new System.Windows.Forms.CheckBox();
+            this.textBeforeNoNewLineCheckBox = new System.Windows.Forms.CheckBox();
+            this.textBetweenNotNewLineCheckBox = new System.Windows.Forms.CheckBox();
+            this.mergeNextFileInSameLineCheckBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // selectedLabel
@@ -133,9 +137,6 @@
             this.outputFileLabel.Size = new System.Drawing.Size(136, 32);
             this.outputFileLabel.TabIndex = 7;
             this.outputFileLabel.Text = "Output file:";
-            // 
-            // saveFileDialog
-            // 
             // 
             // betweenLabel
             // 
@@ -214,16 +215,16 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // button4
+            // clearAllSelectedFoldersButton
             // 
-            this.button4.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.button4.Location = new System.Drawing.Point(1125, 111);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(66, 30);
-            this.button4.TabIndex = 21;
-            this.button4.Text = "Clear";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.clearAllSelectedFoldersButton.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.clearAllSelectedFoldersButton.Location = new System.Drawing.Point(1125, 111);
+            this.clearAllSelectedFoldersButton.Name = "clearAllSelectedFoldersButton";
+            this.clearAllSelectedFoldersButton.Size = new System.Drawing.Size(66, 30);
+            this.clearAllSelectedFoldersButton.TabIndex = 21;
+            this.clearAllSelectedFoldersButton.Text = "Clear";
+            this.clearAllSelectedFoldersButton.UseVisualStyleBackColor = true;
+            this.clearAllSelectedFoldersButton.Click += new System.EventHandler(this.clearAllSelectedFoldersButton_Click);
             // 
             // deleteSelectedFolderButton
             // 
@@ -298,11 +299,59 @@
             this.settingsButton.UseVisualStyleBackColor = true;
             this.settingsButton.Click += new System.EventHandler(this.settingsButton_Click);
             // 
+            // textAfterNoNewLineCheckBox
+            // 
+            this.textAfterNoNewLineCheckBox.AutoSize = true;
+            this.textAfterNoNewLineCheckBox.Location = new System.Drawing.Point(36, 737);
+            this.textAfterNoNewLineCheckBox.Name = "textAfterNoNewLineCheckBox";
+            this.textAfterNoNewLineCheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.textAfterNoNewLineCheckBox.Size = new System.Drawing.Size(240, 21);
+            this.textAfterNoNewLineCheckBox.TabIndex = 30;
+            this.textAfterNoNewLineCheckBox.Text = "Do not start new line for After text";
+            this.textAfterNoNewLineCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // textBeforeNoNewLineCheckBox
+            // 
+            this.textBeforeNoNewLineCheckBox.AutoSize = true;
+            this.textBeforeNoNewLineCheckBox.Location = new System.Drawing.Point(36, 710);
+            this.textBeforeNoNewLineCheckBox.Name = "textBeforeNoNewLineCheckBox";
+            this.textBeforeNoNewLineCheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.textBeforeNoNewLineCheckBox.Size = new System.Drawing.Size(252, 21);
+            this.textBeforeNoNewLineCheckBox.TabIndex = 31;
+            this.textBeforeNoNewLineCheckBox.Text = "Do not start new line for Before text";
+            this.textBeforeNoNewLineCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // textBetweenNotNewLineCheckBox
+            // 
+            this.textBetweenNotNewLineCheckBox.AutoSize = true;
+            this.textBetweenNotNewLineCheckBox.Location = new System.Drawing.Point(36, 764);
+            this.textBetweenNotNewLineCheckBox.Name = "textBetweenNotNewLineCheckBox";
+            this.textBetweenNotNewLineCheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.textBetweenNotNewLineCheckBox.Size = new System.Drawing.Size(264, 21);
+            this.textBetweenNotNewLineCheckBox.TabIndex = 32;
+            this.textBetweenNotNewLineCheckBox.Text = "Do not start new line for Between text";
+            this.textBetweenNotNewLineCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // mergeNextFileInSameLineCheckBox
+            // 
+            this.mergeNextFileInSameLineCheckBox.AutoSize = true;
+            this.mergeNextFileInSameLineCheckBox.Location = new System.Drawing.Point(36, 791);
+            this.mergeNextFileInSameLineCheckBox.Name = "mergeNextFileInSameLineCheckBox";
+            this.mergeNextFileInSameLineCheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.mergeNextFileInSameLineCheckBox.Size = new System.Drawing.Size(265, 21);
+            this.mergeNextFileInSameLineCheckBox.TabIndex = 33;
+            this.mergeNextFileInSameLineCheckBox.Text = "Merge files without starting a new line";
+            this.mergeNextFileInSameLineCheckBox.UseVisualStyleBackColor = true;
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1203, 782);
+            this.ClientSize = new System.Drawing.Size(1203, 831);
+            this.Controls.Add(this.mergeNextFileInSameLineCheckBox);
+            this.Controls.Add(this.textBetweenNotNewLineCheckBox);
+            this.Controls.Add(this.textBeforeNoNewLineCheckBox);
+            this.Controls.Add(this.textAfterNoNewLineCheckBox);
             this.Controls.Add(this.settingsButton);
             this.Controls.Add(this.UoMLabel);
             this.Controls.Add(this.skipBigFilesTextBox);
@@ -310,7 +359,7 @@
             this.Controls.Add(this.skipBigFilesCheckBox);
             this.Controls.Add(this.includeFilesInSubfoldersCheckBox);
             this.Controls.Add(this.deleteSelectedFolderButton);
-            this.Controls.Add(this.button4);
+            this.Controls.Add(this.clearAllSelectedFoldersButton);
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.betweenTextBox);
             this.Controls.Add(this.betweenLabel);
@@ -354,7 +403,7 @@
         private WK.Libraries.BetterFolderBrowserNS.BetterFolderBrowser betterFolderBrowser1;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button clearAllSelectedFoldersButton;
         private System.Windows.Forms.Button deleteSelectedFolderButton;
         private System.Windows.Forms.CheckBox includeFilesInSubfoldersCheckBox;
         private System.Windows.Forms.CheckBox skipBigFilesCheckBox;
@@ -362,6 +411,10 @@
         private System.Windows.Forms.TextBox skipBigFilesTextBox;
         private System.Windows.Forms.Label UoMLabel;
         private System.Windows.Forms.Button settingsButton;
+        private System.Windows.Forms.CheckBox textAfterNoNewLineCheckBox;
+        private System.Windows.Forms.CheckBox textBeforeNoNewLineCheckBox;
+        private System.Windows.Forms.CheckBox textBetweenNotNewLineCheckBox;
+        private System.Windows.Forms.CheckBox mergeNextFileInSameLineCheckBox;
     }
 }
 

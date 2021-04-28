@@ -17,7 +17,7 @@ namespace TextFileMerger
 {
     public partial class mainForm : Form
     {
-        string[] selectedFolders = new string[0];
+        List<string> selectedFolders = new List<string>();
         public mainForm()
         {
             InitializeComponent();
@@ -37,41 +37,31 @@ namespace TextFileMerger
             {
                 if(Settings.Default.clearSelectedFolderListBeforeNextSelect)
                 {
-                    selectedFolders = new string[0];
+                    selectedFolders.Clear();
                     listBox1.Items.Clear();
                 }
 
                 bool uniqueFolder = Settings.Default.uniqueFolder;
-                List<string> selectedFoldersList = new List<string>();
 
                 foreach (string folder in betterFolderBrowser.SelectedFolders)
                 {
                     //Prevent error if selectedFolders in empty
-                    if ((selectedFolders != null) && uniqueFolder
-                        && (Array.IndexOf(selectedFolders, folder) > -1)) continue;
-                    selectedFoldersList.Add(folder);
+                    if ((selectedFolders != null) && uniqueFolder && (selectedFolders.IndexOf(folder) > -1)) continue;
+                    selectedFolders.Add(folder);
                 }
 
-                for (int i = 0; i < selectedFoldersList.Count; i++)
+                for (int i = 0; i < selectedFolders.Count; i++)
                 {
-                    listBox1.Items.Add(selectedFoldersList[i]);
+                    listBox1.Items.Add(selectedFolders[i]);
 
                     if(includeFilesInSubfoldersCheckBox.Checked)
                     {
-                        string[] subFolders = Directory.GetDirectories(selectedFoldersList[i], "*", SearchOption.AllDirectories);
+                        string[] subFolders = Directory.GetDirectories(selectedFolders[i], "*", SearchOption.AllDirectories);
                         foreach(string sub in subFolders)
                         {
                             listBox1.Items.Add(sub);                                                      
                         }
                     }
-                }
-                //Add new folders to the already added's list
-                if(selectedFolders != null)
-                {
-                    selectedFolders = selectedFolders.Concat(selectedFoldersList.ToArray()).ToArray();
-                } else
-                {
-                    selectedFolders = selectedFoldersList.ToArray();
                 }
                 
                 // If custom default output folder is set and is also valid then use that
@@ -100,11 +90,11 @@ namespace TextFileMerger
         {
             StreamWriter sw = null;
             //Check if any folder is selected
-            if(selectedFolders == null || selectedFolders.Length < 1)
+            if(selectedFolders == null || selectedFolders.Count < 1)
             {
                 MessageBox.Show(
                    "There aren't any folders selected!",
-                   "Folder selecton error",
+                   "Folder selection error",
                    MessageBoxButtons.OK,
                    MessageBoxIcon.Warning
                 );
@@ -118,13 +108,19 @@ namespace TextFileMerger
                 //Check if file already exist in this folder
                 if (File.Exists(outputFileTextBox.Text))
                 {
-                    if (MessageBox.Show(
-                        "The file " + Path.GetFileName(outputFileTextBox.Text) + " already exists. " +
-                        "Do you want to overwrite it?",
-                        "Confirm overwrite",
-                        MessageBoxButtons.YesNoCancel,
-                        MessageBoxIcon.Warning,
-                        MessageBoxDefaultButton.Button2) != DialogResult.Yes) return;
+                    //Ignore empty files
+                    //An empty file is created if the output has been manualy selected
+                    //and not just automatically filled when source folders have been added
+                    long outputFileSize = new FileInfo(outputFileTextBox.Text).Length;
+                    if (outputFileSize != 0) {
+                        if (MessageBox.Show(
+                            "The file " + Path.GetFileName(outputFileTextBox.Text) + " already exists. " +
+                            "Do you want to overwrite it?",
+                            "Confirm overwrite",
+                            MessageBoxButtons.YesNoCancel,
+                            MessageBoxIcon.Warning,
+                            MessageBoxDefaultButton.Button2) != DialogResult.Yes) return;
+                    }
                 }
                 //Create the outpuf file
                 merged = File.Create(outputFileTextBox.Text);
@@ -190,6 +186,22 @@ namespace TextFileMerger
                         }
                     }
 
+                    //Get back a string if we do not want to start file in new line
+                    string lastBeginningLine = WriteBeginning(sw, Path.GetFileName(file.ToString()));
+                    bool firstLine = true;
+                    //Count the lines in the current file
+                    long numberOfLines = 0;
+                    if (textAfterNoNewLineCheckBox.Checked)
+                    {
+                        using (var reader = File.OpenText(file.ToString()))
+                        {
+                            while (reader.ReadLine() != null)
+                            {
+                                numberOfLines++;
+                            }
+                        }
+                    }
+                    string lastLineStr = "";
                     using (StreamReader sr = File.OpenText(file.ToString()))
                     {
                         /* // FR TODO: encoding
@@ -202,20 +214,33 @@ namespace TextFileMerger
                         MessageBoxIcon.Information,
                         MessageBoxDefaultButton.Button1) != DialogResult.Yes) return;
                         */
-                        WriteBeginning(sw, Path.GetFileName(file.ToString()));
+                        long lineCounter = 0;
                         string s = "";
                         while ((s = sr.ReadLine()) != null)
                         {
-                            sw.WriteLine(s);
+                            //Ending - save last line but do not write yet!
+                            if (textAfterNoNewLineCheckBox.Checked && lineCounter == numberOfLines)
+                            {
+                                lastLineStr = s;
+                                break;
+                            }
+                            //Beginning
+                            if (firstLine)
+                                sw.WriteLine(lastBeginningLine + s);
+                            else
+                                sw.WriteLine(s);
+                            if (firstLine) firstLine = false;
+                            lineCounter++;
                         }
 
-                        WriteEnding(sw, Path.GetFileName(file.ToString()));
+                    }
+                    //Ending text - write it and the last line if it is not added yet
+                    WriteEnding(sw, Path.GetFileName(file.ToString()), lastLineStr);
 
-                        //Between files text
-                        if (folder == lastFolder && file != lastFile)
-                        {
-                            WriteBetween(sw);
-                        }
+                    //Between files text
+                    if (folder == lastFolder && file != lastFile)
+                    {
+                        WriteBetween(sw);
                     }
                 }
             }
@@ -225,7 +250,7 @@ namespace TextFileMerger
             //Clear selected folders if needed
             if(Settings.Default.removeSelectedFoldersAfterProcessing)
             {
-                selectedFolders = new string[0];
+                selectedFolders.Clear();
                 listBox1.Items.Clear();
             }
 
@@ -303,18 +328,35 @@ namespace TextFileMerger
             }
         }
 
-        private void WriteBeginning(StreamWriter sw, string fileName)
+        private string WriteBeginning(StreamWriter sw, string fileName)
         {
-            for (int i = 0; i < beforeTextBox.Lines.Length; i++)
+            int len = beforeTextBox.Lines.Length;
+            if (textBeforeNoNewLineCheckBox.Checked) len--;
+            for (int i = 0; i < len; i++)
             {
                 string line = beforeTextBox.Lines[i].Replace("[FileName]", fileName);
                 sw.WriteLine(line);
             }
+            if (textBeforeNoNewLineCheckBox.Checked)
+            {
+                string lastLine =
+                    beforeTextBox.Lines[beforeTextBox.Lines.Count() - 1].Replace("[FileName]", fileName);
+                return lastLine;
+            }
+
+            return "";                
         }
 
-        private void WriteEnding(StreamWriter sw, string fileName)
+        private void WriteEnding(StreamWriter sw, string fileName, string lastLineStr)
         {
-            for (int i = 0; i < afterTextBox.Lines.Length; i++)
+            int start = 0;
+            if (textAfterNoNewLineCheckBox.Checked)
+            {
+                string lastLine = afterTextBox.Lines[0].Replace("[FileName]", fileName);
+                sw.WriteLine(lastLineStr + lastLine);
+                start++;
+            }
+            for (int i = start; i < afterTextBox.Lines.Length; i++)
             {
                 string line = afterTextBox.Lines[i].Replace("[FileName]", fileName);
                 sw.WriteLine(line);
@@ -336,24 +378,14 @@ namespace TextFileMerger
             //Is there any folder selected?
             if (selectedIndex != -1)
             {
-                //Make a list so we can remove a specific item easily
-                var selectedFoldersList = new List<String>(selectedFolders);
-
-                selectedFoldersList.RemoveAt(selectedIndex);
+                selectedFolders.RemoveAt(selectedIndex);
                 listBox1.Items.RemoveAt(selectedIndex);
-                selectedFolders = selectedFoldersList.ToArray();
                 //If it was the last item we do not need to select any another
                 if(listBox1.Items.Count != 0)
                 {
                     listBox1.SetSelected(Math.Min(selectedIndex, listBox1.Items.Count - 1), true);
                 }
             }
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            listBox1.Items.Clear();
-            selectedFolders = null;
         }
 
         private void skipBigFilesTextBox_KeyPress(object sender, KeyPressEventArgs e)
@@ -422,5 +454,10 @@ namespace TextFileMerger
             return "";
         }
 
+        private void clearAllSelectedFoldersButton_Click(object sender, EventArgs e)
+        {
+            listBox1.Items.Clear();
+            selectedFolders.Clear();
+        }
     }
 }
